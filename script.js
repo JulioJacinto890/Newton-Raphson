@@ -1,40 +1,71 @@
-document.getElementById('newton-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    // Obtener los valores ingresados por el usuario
-    const func = document.getElementById('function').value;
-    const deriv = document.getElementById('derivative').value;
-    let x0 = parseFloat(document.getElementById('initial').value);
+// Función para calcular la derivada
+function derivative(func, x) {
+    const h = 1e-10; 
+    return (func(x + h) - func(x - h)) / (2 * h);
+}
+
+// Método de Newton-Raphson
+function newtonRaphson() {
+    const funcInput = document.getElementById('function').value;
+    const x0 = parseFloat(document.getElementById('x0').value);
     const tolerance = parseFloat(document.getElementById('tolerance').value);
-    const maxIterations = parseInt(document.getElementById('iterations').value);
-    
-    // Función para evaluar una expresión matemática con un valor dado de x
-    function evaluate(expression, x) {
-        return math.evaluate(expression, {x: x});
+
+    if (!funcInput || isNaN(x0) || isNaN(tolerance)) {
+        alert("Por favor, ingrese valores válidos.");
+        return;
     }
-    
-    let iterations = 0;
-    let error = 1;
-    
-    while (error > tolerance && iterations < maxIterations) {
-        const fx = evaluate(func, x0);
-        const dfx = evaluate(deriv, x0);
-        
-        if (dfx === 0) {
-            document.getElementById('result').innerText = "La derivada es cero, no se puede continuar.";
+
+    let f;
+    try {
+        f = new Function('x', `return ${funcInput};`);
+    } catch (error) {
+        alert("Error en la función ingresada. Asegúrese de que sea válida.");
+        return;
+    }
+
+    let x = x0;
+    let iteration = 0;
+    let error = Infinity;
+    let results = []; // Array para almacenar los resultados
+
+    while (error > tolerance) {
+        const fx = f(x);
+        const fpx = derivative(f, x);
+
+        if (fpx === 0) {
+            alert("Error: La derivada es cero, no se puede continuar.");
             return;
         }
-        
-        const x1 = x0 - fx / dfx;
-        error = Math.abs(x1 - x0);
-        x0 = x1;
-        iterations++;
+
+        const x1 = x - fx / fpx;
+        error = Math.abs(x1 - x);
+        results.push(`Iteración ${iteration + 1}: x1 = ${x1.toFixed(6)}, error = ${error.toFixed(6)}`);
+        x = x1;
+        iteration++;
+
+        if (iteration > 1000) {
+            alert("No converge después de 1000 iteraciones.");
+            return;
+        }
     }
 
+    // Mostrar resultados
+    document.getElementById('popupResult').innerHTML = `
+        <p>Raíz aproximada: ${x.toFixed(6)}</p>
+        <p>Error: ${error.toFixed(6)}</p>
+        <h3>Iteraciones:</h3>
+        <p>${results.join('<br>')}</p>
+    `;
+    document.getElementById('popup').style.display = "block";
+}
 
-    if (iterations === maxIterations) {
-        document.getElementById('result').innerText = "Se alcanzó el número máximo de iteraciones sin converger.";
-    } else {
-        document.getElementById('result').innerText = `Raíz encontrada: x ≈ ${x0.toFixed(5)} en ${iterations} iteraciones con un error de ${error}.`;
-    }
-});
+// Función para cerrar la ventana
+function closePopup() {
+    document.getElementById('popup').style.display = "none";
+}
+
+// Función para abrir y cerrar panel de informacion
+function toggleInfo() {
+    const panel = document.getElementById('infoPanel');
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+}
