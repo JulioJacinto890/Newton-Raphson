@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #f0f0f0; 
+    background-color: #0f6699; 
     color: #333; 
 }
 
@@ -36,7 +36,7 @@ input {
 }
 
 button {
-    background-color: #4CAF50; 
+    background-color: #003acb; 
     color: white;
     border: none; 
     cursor: pointer;
@@ -44,7 +44,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049; 
+    background-color: #003acb; 
 }
 
 .info-panel {
