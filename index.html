@@ -1,56 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Método de Newton-Raphson</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     <div class="container">
-      <h1>Método de Newton-Raphson</h1>
-      <form id="newton-form">
-        <label for="function">Función (en términos de x):</label>
-        <input
-          type="text"
-          id="function"
-          placeholder="Ej: x^3 - 5x + 1"
-          required
-        />
+        <h1>MÉTODO DE NEWTON-RAPHSON</h1>
+        <p>INGRESE UNA FUNCIÓN, EL VALOR INICIAL Y LA TOLERANCIA:</p>
+        
+        <label for="function">Función f(x):</label>
+        <input type="text" id="function" placeholder="Ej. Math.exp(-x) - Math.sin(Math.PI * x / 2)">
+        <br>
 
-        <label for="derivative"
-          >Derivada de la función (en términos de x):</label
-        >
-        <input
-          type="text"
-          id="derivative"
-          placeholder="Ej: 3x^2 - 5"
-          required
-        />
-
-        <label for="initial">Valor inicial (x₀):</label>
-        <input type="text" id="initial" required />
+        <label for="x0">Valor inicial x0:</label>
+        <input type="number" id="x0" placeholder="Ej. 2.0" step="any">
+        <br>
 
         <label for="tolerance">Tolerancia:</label>
-        <input
-          type="number"
-          id="tolerance"
-          step="0.0001"
-          value="0.0001"
-          required
-        />
+        <input type="number" id="tolerance" placeholder="Ej. 0.0001" step="any">
+        <br>
 
-        <label for="iterations">Máximo de iteraciones:</label>
-        <input type="number" id="iterations" value="100" required />
+        <button onclick="newtonRaphson()">CALCULAR</button>
+        
+        <button onclick="toggleInfo()">INFORMACIÓN (▼)</button>
+        
+        <div id="infoPanel" class="info-panel" style="display:none;">
+            <h2>Información</h2>
+            <p>x^n = x**n (n = potencia)</p>
+            <p>e = Math.E</p>
+            <p>e^n = Math.exp(n)</p>
+            <p>ln(x) = Math.log(x)</p>
+            <p>π = Math.PI</p>
+            <p>Sen(x) = Math.sin(x)</p>
+            <p>cos(x) = Math.cos(x)</p>
+            <p>tan(x) = Math.tan(x)</p>
+            <p>√x = Math.sqrt(x)</p>
+            <br>
+            <h2>Ejemplo:</h2>
+            <p>La función:</p>
+            <p>e^−x − sin(πx/2)</p>
+            <p>Se escribiría así:</p>
+            <p>Math.exp(-x) - Math.sin(Math.PI * x / 2)</p>
+        </div>
 
-        <button type="submit">Calcular</button>
-      </form>
-      <div id="result"></div>
-      ~juliojacinto,eddyjavalera,Edgar Avila~
+        <div id="result"></div>
     </div>
 
+    <div id="popup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2>RESULTADOS</h2>
+            <p id="popupResult"></p>
+        </div>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
 
     <script src="script.js"></script>
   </body>
